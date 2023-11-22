@@ -77,11 +77,11 @@ Trusted Zone
 
 **Glue job scripts**
 
-[1. customer_landing_to_trusted.py](Customer_landing_to_trusted.py) - This script transfers customer data from the 'landing' to 'trusted' zones. It filters for customers who have agreed to share data with researchers.
+[1. Customer_landing_to_trusted.py](Glue ETL/Customer/Customer_landing_to_trusted.py) - This script transfers customer data from the 'landing' to 'trusted' zones. It filters for customers who have agreed to share data with researchers.
 
-[2. accelerometer_landing_to_trusted_zone.py](Accelerometer_Landing_to_Trusted_zone.py) - This script transfers accelerometer data from the 'landing' to 'trusted' zones. Using a join on customer_trusted and accelerometer_landing, It filters for Accelerometer readings from customers who have agreed to share data with researchers.
+[2. Accelerometer_Landing_to_Trusted_zone.py](Glue ETL/Accelerometer/Accelerometer_Landing_to_Trusted.py) - This script transfers accelerometer data from the 'landing' to 'trusted' zones. Using a join on customer_trusted and accelerometer_landing, It filters for Accelerometer readings from customers who have agreed to share data with researchers.
 
-[3. Trainer_landing_to_trusted.py](Step_Trainer_landing_to_trusted.py) - This script transfers Step Trainer data from the 'landing' to 'trusted' zones. Using a join on customer_curated and step_trainer_landing, It filters for customers who have accelerometer data and have agreed to share their data for research with Step Trainer readings.
+[3. Step_Trainer_Landing_to_Trusted.py](Glue ETL/Step Trainer/Step_Trainer_Landing_to_Trusted.py) - This script transfers Step Trainer data from the 'landing' to 'trusted' zones. Using a join on customer_curated and step_trainer_landing, It filters for customers who have accelerometer data and have agreed to share their data for research with Step Trainer readings.
 
 The customer_trusted table was queried in Athena to show that it only contains customer records from people who agreed to share their data.
 
@@ -97,8 +97,8 @@ Curated Zone
 
 **Glue job scripts**
 
-[customer_trusted_to_curated.py](Customer_trusted_to_curated.py) - This script transfers customer data from the 'trusted' to 'curated' zones. Using a join on customer_trusted and accelerometer_landing, It filters for customers with Accelerometer readings and have agreed to share data with researchers.
+[Customer_trusted_to_curated.py](Glue ETL/Customer/Customer_trusted_to_curated.py) - This script transfers customer data from the 'trusted' to 'curated' zones. Using a join on customer_trusted and accelerometer_landing, It filters for customers with Accelerometer readings and have agreed to share data with researchers.
 
-[Create_Machine_Learning_Curated.py](Create_Machine_Learning_Curated.py): This script is used to build aggregated table that has each of the Step Trainer Readings, and the associated accelerometer reading data for the same timestamp, but only for customers who have agreed to share their data.
+[Create_Machine_Learning_Curated.py](Glue ETL/Step Trainer/Create_Machine_Learning_Curated.py): This script is used to build aggregated table that has each of the Step Trainer Readings, and the associated accelerometer reading data for the same timestamp, but only for customers who have agreed to share their data.
 
 </details>
