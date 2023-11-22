@@ -55,16 +55,19 @@ Landing Zone
 Using The AWS glue data catalog, I created a glue tables so that I can query the data using AWS athena.
 
 1- Customer Landing Table:
+This image shows the result of a sql test query.
 
-![alt text](Athena Queries/Screenshots/customer_landing.png)
+![alt text](AthenaQueries/Screenshots/customer_landing.png)
 
-2- Accelerometer Landing Table: 
+2- Accelerometer Landing Table:
+This image shows the result of a sql test query.
 
-![alt text](Athena Queries/Screenshots/accelerometer_landing.png)
+![alt text](AthenaQueries/Screenshots/accelerometer_landing.png)
 
-3- Step Trainer Landing Table: 
+3- Step Trainer Landing Table:
+This image shows the result of a sql test query.
 
-![alt text](Athena Queries/Screenshots/step_trainer_landing.png)
+![alt text](AthenaQueries/Screenshots/step_trainer_landing.png)
 
 </details>
 
@@ -73,19 +76,19 @@ Using The AWS glue data catalog, I created a glue tables so that I can query the
 Trusted Zone
 </summary>
 
-> In the Trusted Zone, I created AWS Glue jobs to make transofrmations on the raw data in the landing zones.
+> In the Trusted Zone, I created AWS Glue jobs to make transformations on the raw data in the landing zones.
 
 **Glue job scripts**
 
-[1. Customer_landing_to_trusted.py](Glue ETL/Customer/Customer_landing_to_trusted.py) - This script transfers customer data from the 'landing' to 'trusted' zones. It filters for customers who have agreed to share data with researchers.
+[1. customer_landing_to_trusted.py](GlueETL/Customer/customer_landing_to_trusted.py) - This script transfers customer data from the 'landing' to 'trusted' zones. It filters for customers who have agreed to share data with researchers.
 
-[2. Accelerometer_Landing_to_Trusted_zone.py](Glue ETL/Accelerometer/Accelerometer_Landing_to_Trusted.py) - This script transfers accelerometer data from the 'landing' to 'trusted' zones. Using a join on customer_trusted and accelerometer_landing, It filters for Accelerometer readings from customers who have agreed to share data with researchers.
+[2. accelerometer_landing_to_trusted.py](GlueETL/accelerometer/accelerometer_landing_to_trusted.py) - This script transfers accelerometer data from the 'landing' to 'trusted' zones. Using a join on customer_trusted and accelerometer_landing, It filters for Accelerometer readings from customers who have agreed to share data with researchers.
 
-[3. Step_Trainer_Landing_to_Trusted.py](Glue ETL/Step Trainer/Step_Trainer_Landing_to_Trusted.py) - This script transfers Step Trainer data from the 'landing' to 'trusted' zones. Using a join on customer_curated and step_trainer_landing, It filters for customers who have accelerometer data and have agreed to share their data for research with Step Trainer readings.
+[3. step_trainer_landing_to_trusted.py](GlueETL/StepTrainer/step_trainer_landing_to_trusted.py) - This script transfers Step Trainer data from the 'landing' to 'trusted' zones. Using a join on customer_curated and step_trainer_landing, It filters for customers who have accelerometer data and have agreed to share their data for research with Step Trainer readings.
 
 The customer_trusted table was queried in Athena to show that it only contains customer records from people who agreed to share their data.
-
-![alt text](Athena Queries/Screenshots/customer_trusted.png)
+This image shows the result of a sql test query.
+![alt text](AthenaQueries/Screenshots/customer_trusted.png)
 </details>
 
 <details>
@@ -97,8 +100,11 @@ Curated Zone
 
 **Glue job scripts**
 
-[Customer_trusted_to_curated.py](Glue ETL/Customer/Customer_trusted_to_curated.py) - This script transfers customer data from the 'trusted' to 'curated' zones. Using a join on customer_trusted and accelerometer_landing, It filters for customers with Accelerometer readings and have agreed to share data with researchers.
+[customer_trusted_to_curated.py](GlueETL/Customer/customer_trusted_to_curated.py) - This script transfers customer data from the 'trusted' to 'curated' zones. Using a join on customer_trusted and accelerometer_landing, It filters for customers with Accelerometer readings and have agreed to share data with researchers.
 
-[Create_Machine_Learning_Curated.py](Glue ETL/Step Trainer/Create_Machine_Learning_Curated.py): This script is used to build aggregated table that has each of the Step Trainer Readings, and the associated accelerometer reading data for the same timestamp, but only for customers who have agreed to share their data.
+[create_machine_learning_curated.py](GlueETL/StepTrainer/create_machine_learning_curated.py): This script is used to build aggregated table that has each of the Step Trainer Readings, and the associated accelerometer reading data for the same timestamp, but only for customers who have agreed to share their data.
+
+This image shows the result of a sql test query.
+![alt text](AthenaQueries/Screenshots/machine_learning_curated.png)
 
 </details>
