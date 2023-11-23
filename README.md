@@ -1,20 +1,12 @@
 # Project: STEDI-Human-Balance-Analytics
 
-## Contents
-
-+ [Problem Statement](#Problem-Statement)
-+ [Project Discription](#Project-Discription)
-+ [Project Datasets](#Project-Datasets)
-+ [Implementation](#Implementation)
-
-
 ---
-## Problem Statement
+## Project Overview
 
 The STEDI Team has been hard at work developing a hardware STEDI Step Trainer that:
-- trains the user to do a STEDI balance exercise
-- has sensors on the device that collect data to train a machine-learning algorithm to detect steps
-- has a companion mobile app that collects customer data and interacts with the device sensors
+- Trains the user to do a STEDI balance exercise
+- Has sensors on the device that collect data to train a machine-learning algorithm to detect steps
+- Has a companion mobile app that collects customer data and interacts with the device sensors
 
 STEDI has heard from millions of early adopters who are willing to purchase the STEDI Step Trainers and use them.
 
@@ -26,7 +18,7 @@ Some of the early adopters have agreed to share their data for research purposes
 
 ---
 
-### Project Discription
+### Problem Discription
 
 In this project I extracted data produced by the STEDI Step Trainer sensors and the mobile app, and curated them into a data lakehouse solution on AWS. The intent is for Data Scientists to use the solution to train machine learning models. 
 
@@ -37,35 +29,36 @@ AWS infrastructure is used to create storage zones (landing, trusted and curated
 ---
 
 ## Project Datasets
-
-* Customer Records: from fulfillment and the STEDI website.  
-* Step Trainer Records: data from the motion sensor.
-* Accelerometer Records: data from the mobile app.
+The provided datasets for customer, accelerometer and step trainer are JSON formatted data from different sources.
+* Customer Records: Fulfillment and the STEDI website.  
+* Step Trainer Records: From the motion sensor.
+* Accelerometer Records: From the mobile app.
 
 ---
 
-## Implementation
+## Implementation Summary
+
+**NOTE: The following images show the AWS setup in german language.**
+
 <details>
 <summary>
 Landing Zone
 </summary>
 
-> In the Landing Zone I stored the customer, accelerometer and step trainer raw data in AWS S3 bucket. 
+In the Landing Zone the raw data from customer, accelerometer and step trainer are each stored in S3 buckets. 
+By using AWS Athena I created corresponding Glue tables for the Data Catalog and further data transformation.
 
-Using The AWS glue data catalog, I created a glue tables so that I can query the data using AWS athena.
+The following images show relevant Athena Queries to verify the correct table creation and the correct amount of data points.
 
-1- Customer Landing Table:
-This image shows the result of a sql test query.
+**1- Customer Landing Table:**
 
 ![alt text](AthenaQueries/Screenshots/customer_landing.png)
 
-2- Accelerometer Landing Table:
-This image shows the result of a sql test query.
+**2- Accelerometer Landing Table:**
 
 ![alt text](AthenaQueries/Screenshots/accelerometer_landing.png)
 
-3- Step Trainer Landing Table:
-This image shows the result of a sql test query.
+**3- Step Trainer Landing Table:**
 
 ![alt text](AthenaQueries/Screenshots/step_trainer_landing.png)
 
@@ -76,7 +69,7 @@ This image shows the result of a sql test query.
 Trusted Zone
 </summary>
 
-> In the Trusted Zone, I created AWS Glue jobs to make transformations on the raw data in the landing zones.
+In the Trusted Zone, I created AWS Glue jobs to transform the raw data from the landing zones to the corresponding trusted zones. In conclusion, it only contains customer records from people who agreed to share their data.
 
 **Glue job scripts**
 
@@ -86,8 +79,9 @@ Trusted Zone
 
 [3. step_trainer_landing_to_trusted.py](GlueETL/StepTrainer/step_trainer_landing_to_trusted.py) - This script transfers Step Trainer data from the 'landing' to 'trusted' zones. Using a join on customer_curated and step_trainer_landing, It filters for customers who have accelerometer data and have agreed to share their data for research with Step Trainer readings.
 
-The customer_trusted table was queried in Athena to show that it only contains customer records from people who agreed to share their data.
-This image shows the result of a sql test query.
+The customer_trusted table was queried in Athena.
+The following images show relevant Athena Queries to verify the correct table creation and the correct amount of data points.
+
 ![alt text](AthenaQueries/Screenshots/customer_trusted.png)
 </details>
 
@@ -96,7 +90,7 @@ This image shows the result of a sql test query.
 Curated Zone
 </summary>
 
-> In the Curated Zone I created AWS Glue jobs to make further transformations, to meet the specific needs of a particular analysis.
+In the Curated Zone I created AWS Glue jobs to make further transformations, to meet the specific needs of a particular analysis. E.g. the tables were reduced to only show necessary data.
 
 **Glue job scripts**
 
@@ -104,7 +98,8 @@ Curated Zone
 
 [create_machine_learning_curated.py](GlueETL/StepTrainer/create_machine_learning_curated.py): This script is used to build aggregated table that has each of the Step Trainer Readings, and the associated accelerometer reading data for the same timestamp, but only for customers who have agreed to share their data.
 
-This image shows the result of a sql test query.
+The following images show relevant Athena Queries to verify the correct table creation and the correct amount of data points.
+
 ![alt text](AthenaQueries/Screenshots/machine_learning_curated.png)
 
 </details>
