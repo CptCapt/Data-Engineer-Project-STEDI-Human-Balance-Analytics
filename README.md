@@ -84,7 +84,7 @@ The following images show relevant Athena Queries to verify the correct table cr
 
 ![alt text](AthenaQueries/Screenshots/customer_trusted.png)
 
-Verification, that customer_trusted really shows customer who agreed using their data.
+Verification, that customer_trusted only shows customers, who agreed using their data (therefore "sharewithresearchasofdate" column must be empty).
 ![alt text](AthenaQueries/Screenshots/customer_trusted_verified.png)
 
 </details>
