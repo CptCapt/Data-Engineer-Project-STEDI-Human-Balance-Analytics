@@ -83,6 +83,10 @@ The customer_trusted table was queried in Athena.
 The following images show relevant Athena Queries to verify the correct table creation and the correct amount of data points.
 
 ![alt text](AthenaQueries/Screenshots/customer_trusted.png)
+
+Verification, that customer_trusted really shows customer who agreed using their data.
+![alt text](AthenaQueries/Screenshots/customer_trusted_verified.png)
+
 </details>
 
 <details>
